@@ -1,0 +1,38 @@
+{
+  "builders": [
+    {
+      "type": "qemu",
+      "accelerator": "kvm",
+      "vm_name": "winxp64",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "headless": true,
+      "skip_compaction": true,
+      "boot_wait": "2m",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "8h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "disk_size": 20000,
+      "disk_interface": "ide",
+      "net_device": "rtl8139",
+      "qemuargs": [
+          [ "-smp", "2" ],
+          [ "-m", "1000" ]
+      ],
+      "floppy_files": [
+          "{{user `autounattend`}}",
+          "scripts/download_dotnet2.0.vbs",
+          "scripts/download_winrm.vbs"
+      ]
+    }
+  ],
+  "variables": {
+    "iso_url": "iso/en_windows_xp_professional_x64.iso",
+    "iso_checksum_type": "md5",
+    "iso_checksum": "d089dd4e7529219186e355e0306e94b0",
+    "autounattend": "answer_files/64/WINNT.SIF"
+  }
+}
